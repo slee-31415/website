@@ -819,7 +819,6 @@
     <li><a href="#" onclick="showSection('cv')" data-section="cv">CV</a></li>
     <li><a href="#" onclick="showSection('research')" data-section="research">Research</a></li>
     <li><a href="#" onclick="showSection('teaching')" data-section="teaching">Teaching</a></li>
-    <li><a href="#" onclick="showSection('game')" data-section="game">Alliance Game</a></li>
     <li><a href="#" onclick="showSection('contact')" data-section="contact">Contact</a></li>
   </ul>
 </nav>
@@ -1055,55 +1054,6 @@
   </div>
 </section>
 
-<!-- GAME -->
-<section id="game">
-  <div class="section-inner">
-    <div class="section-header fade-in">
-      <div class="section-eyebrow">Interactive</div>
-      <h2 class="section-title">Alliance<br><em style="font-style: italic; color: var(--accent);">Trivia</em></h2>
-    </div>
-
-    <div class="game-intro fade-in">
-      <p>Think you know how military alliances work? Test your understanding of international security with scenarios drawn from real alliance research. Each question is rooted in IR theory and empirical findings.</p>
-    </div>
-
-    <div class="game-container fade-in">
-      <div class="game-board" id="gameBoard">
-        <div class="game-phase" id="gamePhase">Question 1 of 8</div>
-        <div class="game-question" id="gameQuestion"></div>
-        <div class="game-context" id="gameContext"></div>
-        <div class="game-options" id="gameOptions"></div>
-        <div class="game-feedback" id="gameFeedback"></div>
-        <div class="game-stats">
-          <div class="stat">
-            <span class="stat-num" id="scoreNum">0</span>
-            <span class="stat-label">Score</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-          </div>
-          <div class="stat">
-            <span class="stat-num" id="qNum">1</span>
-            <span class="stat-label">Question</span>
-          </div>
-        </div>
-        <button class="btn game-next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
-      </div>
-
-      <div class="game-result" id="gameResult">
-        <span class="result-score" id="resultScore"></span>
-        <span class="result-label">out of 8 correct</span>
-        <div class="result-title" id="resultTitle"></div>
-        <div class="result-msg" id="resultMsg"></div>
-        <button class="btn" onclick="restartGame()">Play Again</button>
-        <div class="game-tip">
-          <div class="game-tip-label">📚 Further Reading</div>
-          <p>Interested in the real science? Check out Saera's research on alliance duration and cultural affinity — the theories behind these questions are her area of expertise.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section id="contact">
