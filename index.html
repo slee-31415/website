@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saera Lee — Political Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --ink: #1A1814;
+    --warm-gray: #8C8880;
+    --accent: #C4593A;
+    --accent-light: #E8C4B8;
+    --border: #DDD9D2;
+    --card-bg: #FDFBF8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    width: 30px; height: 30px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.12s ease;
+    mix-blend-mode: multiply;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 60px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* Sections */
+  section {
+    min-height: 100vh;
+    padding: 140px 60px 80px;
+    display: none;
+  }
+  section.active { display: block; }
+
+  /* HOME */
+  #home {
+    display: none;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 80px;
+  }
+  #home.active { display: flex; }
+
+  .home-text { flex: 1; }
+
+  .home-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s forwards;
+  }
+
+  .home-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 84px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .home-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .home-bio {
+    font-size: 15px;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    max-width: 480px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+
+  .home-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.45s forwards;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    color: var(--warm-gray);
+    letter-spacing: 0.05em;
+  }
+
+  .home-photo {
+    width: 340px;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .photo-frame {
+    width: 340px;
+    height: 420px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #E8E0D5 0%, #D4C9BB 100%);
+  }
+
+  .photo-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .photo-icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: var(--warm-gray);
+    opacity: 0.3;
+  }
+
+  .photo-placeholder span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-gray);
+    letter-spacing: 0.1em;
+  }
+
+  .photo-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-gray);
+    margin-top: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .photo-frame::after {
+    content: '';
+    position: absolute;
+    top: -8px; left: -8px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--accent-light);
+    pointer-events: none;
+  }
+
+  /* Affiliation cards */
+  .affil-cards {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.55s forwards;
+  }
+
+  .affil-card {
+    padding: 10px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink);
+  }
+
+  .affil-card strong {
+    display: block;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 48px 0;
+    max-width: 900px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--warm-gray);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Generic section layout */
+  .section-inner { max-width: 900px; margin: 0 auto; }
+
+  .section-header {
+    margin-bottom: 60px;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  /* CV */
+  .cv-group { margin-bottom: 48px; }
+  .cv-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cv-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .cv-item:last-child { border-bottom: none; }
+
+  .cv-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--warm-gray);
+    padding-top: 2px;
+  }
+
+  .cv-content strong {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .cv-content span {
+    font-size: 13px;
+    color: var(--warm-gray);
+    display: block;
+  }
+
+  /* Research */
+  .paper-card {
+    padding: 28px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s;
+  }
+
+  .paper-card:hover::before { transform: scaleY(1); }
+  .paper-card:hover { transform: translateX(4px); border-color: var(--accent-light); }
+
+  .paper-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .paper-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+
+  .paper-desc {
+    font-size: 13px;
+    color: var(--warm-gray);
+    line-height: 1.7;
+  }
+
+  /* Teaching */
+  .course-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .course-card {
+    padding: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .course-card:hover { border-color: var(--accent-light); }
+
+  .course-level {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .course-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .course-desc {
+    font-size: 13px;
+    color: var(--warm-gray);
+    line-height: 1.6;
+  }
+
+  /* Contact */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .contact-info p {
+    font-size: 14px;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .contact-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .contact-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    width: 70px;
+    flex-shrink: 0;
+  }
+
+  .contact-value {
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-gray);
+  }
+
+  .form-group input, .form-group textarea {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .btn:hover { background: var(--ink); transform: translateY(-2px); }
+
+  /* === MINI GAME === */
+  #game { background: var(--cream); }
+
+  .game-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+  }
+
+  .game-intro p {
+    color: var(--warm-gray);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .game-container {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .game-board {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 40px;
+    position: relative;
+  }
+
+  .game-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .game-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    min-height: 72px;
+  }
+
+  .game-context {
+    font-size: 13px;
+    color: var(--warm-gray);
+    margin-bottom: 32px;
+    line-height: 1.6;
+    min-height: 40px;
+  }
+
+  .game-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .game-option {
+    padding: 16px 20px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+
+  .game-option:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: translateY(-2px);
+  }
+
+  .game-option.correct { background: #D4EDDA; border-color: #82C99A; color: #1A4A28; }
+  .game-option.wrong { background: #F8D7DA; border-color: #D9848A; color: #5A1A20; }
+  .game-option:disabled { cursor: default; }
+
+  .game-feedback {
+    min-height: 60px;
+    padding: 16px;
+    background: var(--cream);
+    border-left: 3px solid var(--accent);
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.6;
+    display: none;
+    margin-bottom: 20px;
+  }
+
+  .game-feedback.visible { display: block; }
+
+  .game-stats {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.5s ease;
+  }
+
+  .game-next-btn {
+    display: none;
+    margin-top: 8px;
+  }
+
+  .game-result {
+    text-align: center;
+    padding: 40px;
+    display: none;
+  }
+  .game-result.visible { display: block; }
+
+  .result-score {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .result-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--warm-gray);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .result-msg {
+    font-size: 14px;
+    color: var(--warm-gray);
+    margin-bottom: 32px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .game-tip {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-top: 32px;
+    text-align: left;
+  }
+
+  .game-tip-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .game-tip p {
+    font-size: 13px;
+    color: var(--warm-gray);
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 60px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--warm-gray);
+    letter-spacing: 0.05em;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { gap: 20px; }
+    section { padding: 120px 24px 60px; }
+    #home { flex-direction: column-reverse; gap: 40px; }
+    .home-photo { width: 100%; }
+    .photo-frame { width: 100%; height: 260px; }
+    .contact-grid, .course-grid, .game-options { grid-template-columns: 1fr; }
+    .cv-item { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  /* Course List */
+  .course-list {
+    list-style: none;
+    border-top: 1px solid var(--border);
+    max-width: 900px;
+  }
+
+  .course-list-item {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+
+  .course-list-item:hover {
+    padding-left: 8px;
+  }
+
+  .course-list-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+    min-width: 220px;
+    flex-shrink: 0;
+  }
+
+  .course-list-name {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .course-list-item { flex-direction: column; gap: 4px; }
+    .course-list-meta { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#" class="nav-logo" onclick="showSection('home')">Saera Lee</a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showSection('home')" data-section="home" class="active">Home</a></li>
+    <li><a href="#" onclick="showSection('cv')" data-section="cv">CV</a></li>
+    <li><a href="#" onclick="showSection('research')" data-section="research">Publications</a></li>
+    <li><a href="#" onclick="showSection('teaching')" data-section="teaching">Teaching</a></li>
+    <li><a href="#" onclick="showSection('game')" data-section="game">Alliance Game</a></li>
+    <li><a href="#" onclick="showSection('contact')" data-section="contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="active">
+  <div class="home-text">
+    <div class="home-eyebrow">Political Scientist</div>
+    <h1 class="home-title">Saera<br><em>Lee</em></h1>
+    <p class="home-bio">
+      I study why states form alliances, how long they last, and what holds them together — or tears them apart. My work bridges international cooperation, conflict, and the quiet role of culture in shaping strategic bonds.
+    </p>
+    <div class="home-tags">
+      <span class="tag">Military Alliances</span>
+      <span class="tag">International Cooperation</span>
+      <span class="tag">Political Methodology</span>
+      <span class="tag">Cultural Affinity</span>
+    </div>
+    <div class="affil-cards">
+      <div class="affil-card">
+        <strong>Current</strong>
+        Lecturer, Politics & Public Admin<br>University of Hong Kong
+      </div>
+      <div class="affil-card">
+        <strong>Previously</strong>
+        Visiting Asst. Professor<br>Northwestern University
+      </div>
+    </div>
+  </div>
+  <div class="home-photo">
+    <div class="photo-frame">
+      <div class="photo-placeholder">
+        <div class="photo-icon"></div>
+        <span>Photo coming soon</span>
+      </div>
+    </div>
+    <div class="photo-caption">University of Hong Kong — HKU</div>
+  </div>
+</section>
+
+<!-- CV -->
+<section id="cv">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Curriculum Vitae</div>
+      <h2 class="section-title">Academic<br>Background</h2>
+    </div>
+
+    <div class="cv-group fade-in">
+      <div class="cv-group-title">Education</div>
+      <div class="cv-item">
+        <div class="cv-year">2023</div>
+        <div class="cv-content">
+          <strong>Ph.D. in Political Science</strong>
+          <span>University of Iowa</span>
+          <span>Dissertation: Duration of Military Alliances and the Role of Cultural Affinity</span>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">2017</div>
+        <div class="cv-content">
+          <strong>M.A. in International Relations</strong>
+          <span>Ewha Womans University</span>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">2014</div>
+        <div class="cv-content">
+          <strong>B.A. in International Studies & Economics</strong>
+          <span>Handong Global University</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-group fade-in">
+      <div class="cv-group-title">Academic Positions</div>
+      <div class="cv-item">
+        <div class="cv-year">2024–</div>
+        <div class="cv-content">
+          <strong>Lecturer, Politics and Public Administration</strong>
+          <span>University of Hong Kong</span>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">2023–24</div>
+        <div class="cv-content">
+          <strong>Visiting Assistant Professor, Political Science</strong>
+          <span>Northwestern University</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-group fade-in">
+      <div class="cv-group-title">Fields of Interest</div>
+      <div class="cv-item">
+        <div class="cv-year">Primary</div>
+        <div class="cv-content">
+          <strong>International Relations</strong>
+          <span>International cooperation, conflict, military alliances</span>
+        </div>
+      </div>
+      <div class="cv-item">
+        <div class="cv-year">Secondary</div>
+        <div class="cv-content">
+          <strong>Political Methodology</strong>
+          <span>Quantitative methods, duration analysis, causal inference</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <a href="#" class="btn" onclick="return false;">Download Full CV</a>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Scholarship</div>
+      <h2 class="section-title">Publications</h2>
+    </div>
+
+    <div class="fade-in">
+      <div class="divider"><span>Dissertation</span></div>
+      <div class="paper-card">
+        <div class="paper-status">📖 Ph.D. Dissertation — University of Iowa, 2023</div>
+        <div class="paper-title">The Ties That Bind: Cultural Affinity and the Duration of Military Alliances</div>
+        <p class="paper-desc">This dissertation examines what sustains military alliances over time. Moving beyond traditional accounts that emphasize material interests and threat environments, I argue that cultural affinity among allies — shared language, religion, colonial history, and civilizational identity — plays a significant and underappreciated role in prolonging alliance commitments.</p>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="divider"><span>Working Papers</span></div>
+      <div class="paper-card">
+        <div class="paper-status">📝 Under Review</div>
+        <div class="paper-title">When Do Allies Stay? Revisiting Alliance Duration with Cultural Covariates</div>
+        <p class="paper-desc">Using an original dataset covering post-WWII alliances, I test the effect of cultural similarity on alliance longevity using duration models, finding robust effects even after controlling for power, threat, and institutional design.</p>
+      </div>
+      <div class="paper-card">
+        <div class="paper-status">📝 Working Paper</div>
+        <div class="paper-title">Institutional Design and Commitment Credibility in Multilateral Alliances</div>
+        <p class="paper-desc">Examines how the internal design features of military alliances — decision-making rules, integration depth, and exit costs — affect member commitment and the overall durability of collective defense arrangements.</p>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="divider"><span>Research Interests</span></div>
+      <div class="paper-card">
+        <div class="paper-status">🔬 Ongoing Project</div>
+        <div class="paper-title">Public Opinion and Alliance Burden-Sharing in East Asia</div>
+        <p class="paper-desc">A new project exploring how domestic publics in South Korea, Japan, and Taiwan perceive alliance obligations and burden-sharing arrangements with the United States, with implications for alliance cohesion.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHING -->
+<section id="teaching">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Pedagogy</div>
+      <h2 class="section-title">Teaching</h2>
+    </div>
+
+    <div class="fade-in" style="margin-bottom: 48px;">
+      <div class="divider"><span>Research &amp; Teaching Interests</span></div>
+      <div class="paper-card">
+        <div class="paper-status">🌏 International Relations</div>
+        <p class="paper-desc">International Conflict and Cooperation · International Organizations · International Political Economy · Security Studies · International Relations of East Asia</p>
+      </div>
+      <div class="paper-card">
+        <div class="paper-status">📊 Political Methodology</div>
+        <p class="paper-desc">Introductory Statistics · Ordinary Linear Regression · Time Series Analysis · Network Analysis · Text Analysis · Multilevel Modeling · Event History Analysis</p>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="divider"><span>University of Hong Kong</span></div>
+      <ul class="course-list">
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Fall 2025</span>
+          <span class="course-list-name">POLI:3615 Analyzing International Relations Data</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Graduate · Fall 2025</span>
+          <span class="course-list-name">POLI:7015 Introduction to Research Methods in International Relations</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fade-in">
+      <div class="divider"><span>Northwestern University</span></div>
+      <ul class="course-list">
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Spring 2025</span>
+          <span class="course-list-name">Poli-Sci 240 Introduction to International Relations</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Spring 2025 / Winter 2025</span>
+          <span class="course-list-name">Poli-Sci 341 International Political Economy</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Winter 2025</span>
+          <span class="course-list-name">Poli-Sci 390 East Asian Politics Seminar</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Fall 2024 / Spring 2024</span>
+          <span class="course-list-name">Poli-Sci 395 The Life-cycle of International Organizations and Military Alliances</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Fall 2024 / Spring 2024 / Fall 2023</span>
+          <span class="course-list-name">Poli-Sci 383 War and Change in International Politics</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Winter 2024</span>
+          <span class="course-list-name">Poli-Sci 210 Introduction to Empirical Methodology in Political Science</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Graduate · Winter 2024</span>
+          <span class="course-list-name">Poli-Sci 405 Linear Models</span>
+        </li>
+        <li class="course-list-item">
+          <span class="course-list-meta">Undergraduate · Spring 2025 / Winter 2025 / Winter 2024</span>
+          <span class="course-list-name">Poli-Sci 399 Independent Research</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="game">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Interactive</div>
+      <h2 class="section-title">Alliance<br><em style="font-style: italic; color: var(--accent);">Trivia</em></h2>
+    </div>
+
+    <div class="game-intro fade-in">
+      <p>Think you know how military alliances work? Test your understanding of international security with scenarios drawn from real alliance research. Each question is rooted in IR theory and empirical findings.</p>
+    </div>
+
+    <div class="game-container fade-in">
+      <div class="game-board" id="gameBoard">
+        <div class="game-phase" id="gamePhase">Question 1 of 8</div>
+        <div class="game-question" id="gameQuestion"></div>
+        <div class="game-context" id="gameContext"></div>
+        <div class="game-options" id="gameOptions"></div>
+        <div class="game-feedback" id="gameFeedback"></div>
+        <div class="game-stats">
+          <div class="stat">
+            <span class="stat-num" id="scoreNum">0</span>
+            <span class="stat-label">Score</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+          </div>
+          <div class="stat">
+            <span class="stat-num" id="qNum">1</span>
+            <span class="stat-label">Question</span>
+          </div>
+        </div>
+        <button class="btn game-next-btn" id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+      </div>
+
+      <div class="game-result" id="gameResult">
+        <span class="result-score" id="resultScore"></span>
+        <span class="result-label">out of 8 correct</span>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-msg" id="resultMsg"></div>
+        <button class="btn" onclick="restartGame()">Play Again</button>
+        <div class="game-tip">
+          <div class="game-tip-label">📚 Further Reading</div>
+          <p>Interested in the real science? Check out Saera's research on alliance duration and cultural affinity — the theories behind these questions are her area of expertise.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header fade-in">
+      <div class="section-eyebrow">Get in Touch</div>
+      <h2 class="section-title">Contact</h2>
+    </div>
+
+    <div class="contact-grid fade-in">
+      <div class="contact-info">
+        <p>I welcome inquiries from students, collaborators, and researchers interested in international security, alliance politics, and political methodology.</p>
+        <div class="contact-detail">
+          <div class="contact-row">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">saera.lee [at] hku.hk</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Office</span>
+            <span class="contact-value">Department of Politics and Public Administration<br>University of Hong Kong<br>Pokfulam, Hong Kong SAR</span>
+          </div>
+          <div class="contact-row">
+            <span class="contact-label">Google Scholar</span>
+            <span class="contact-value"><a href="#" style="color: var(--accent);">View Profile →</a></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form fade-in">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="5" placeholder="What would you like to discuss?"></textarea>
+        </div>
+        <button class="btn" onclick="handleContact()">Send Message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Saera Lee · University of Hong Kong · Built with care
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px';
+  cursor.style.top = my - 4 + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx - 15) * 0.12;
+  ry += (my - ry - 15) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .game-option').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(3)');
+  el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+});
+
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector(`[data-section="${id}"]`).classList.add('active');
+  window.scrollTo(0,0);
+  return false;
+}
+
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', e => e.preventDefault());
+});
+
+// Fade-in observer
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.style.animation = 'fadeUp 0.7s ease forwards';
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// === GAME ===
+const questions = [
+  {
+    q: "NATO has lasted over 75 years. What does alliance research suggest is the most important factor for alliance longevity?",
+    ctx: "NATO was founded in 1949. Most post-WWII alliances dissolved within 15 years.",
+    options: ["Shared external threat", "Similar democratic governance", "Cultural and civilizational similarity", "Equal burden-sharing"],
+    correct: 0,
+    explain: "While all factors matter, traditional IR research highlights shared threat perception as the primary driver. However, Saera's research shows cultural affinity plays a more sustained role once the threat environment shifts."
+  },
+  {
+    q: "The Soviet Union collapsed in 1991. Why did NATO NOT dissolve shortly after, unlike most alliances formed against a common enemy?",
+    ctx: "Realist theory predicts alliances should 'balance against threats' — meaning they dissolve when the threat disappears.",
+    options: ["Members couldn't agree on exit terms", "Deep institutional ties and cultural bonds among members", "The US forced allies to stay", "Russia quickly became threatening again"],
+    correct: 1,
+    explain: "NATO's survival puzzled realists. Constructivists and institutional theorists argue that shared democratic identity, cultural bonds, and institutional depth created intrinsic value that outlasted the Cold War threat."
+  },
+  {
+    q: "Two countries share a language, religion, and colonial history. According to cultural affinity theory, how does this affect their alliance?",
+    ctx: "Cultural affinity refers to shared identities, norms, and social characteristics between states.",
+    options: ["No significant effect — only interests matter", "Makes alliance less likely (too similar, no complementarity)", "Increases alliance formation and duration", "Only matters for economic partnerships"],
+    correct: 2,
+    explain: "Cultural affinity lowers transaction costs, builds trust, and creates shared expectations about behavior — all of which extend alliance duration. This is a core argument in Saera's dissertation."
+  },
+  {
+    q: "South Korea and the US have maintained their alliance since 1953. Which factor MOST threatens it today according to scholars?",
+    ctx: "The U.S.–ROK alliance is one of the most enduring post-WWII bilateral alliances.",
+    options: ["North Korea's declining capabilities", "Growing burden-sharing disputes and differing China policies", "Cultural distance between Americans and Koreans", "Lack of formal treaty obligations"],
+    correct: 1,
+    explain: "Scholars increasingly point to asymmetric burden-sharing expectations and divergent views on China as the primary stress points. South Korea must balance its US alliance against its largest trading partner, China."
+  },
+  {
+    q: "Which of the following is the BEST predictor that an alliance will DISSOLVE?",
+    ctx: "Duration analysis of post-WWII alliances reveals certain reliable warning signs.",
+    options: ["A member state changes government", "Threat disappears and cultural similarity is low", "Alliance membership grows larger", "A member has nuclear weapons"],
+    correct: 1,
+    explain: "Research shows that when the external threat recedes AND cultural bonds are weak, alliances lose both instrumental and intrinsic value — making dissolution far more likely. Cultural affinity acts as a buffer."
+  },
+  {
+    q: "What is 'alliance entrapment' — one of the core dilemmas of alliance politics?",
+    ctx: "Alliances create both security gains and risks for member states.",
+    options: ["When an ally's aggressive actions drag you into an unwanted war", "When enemy states trap you by surrounding your allies", "When alliance costs exceed alliance benefits", "When two allies fight each other"],
+    correct: 0,
+    explain: "The Entrapment-Abandonment dilemma (Snyder, 1984) is central to alliance theory. States fear being dragged into conflicts by reckless allies (entrapment) or being left alone in a crisis (abandonment)."
+  },
+  {
+    q: "A small state joins a security alliance with a superpower. What does 'asymmetric alliance' theory predict the small state will offer in return?",
+    ctx: "Most alliances between unequal powers involve implicit or explicit bargains.",
+    options: ["Equal military contributions", "Strategic autonomy and deference in foreign policy", "Economic aid to the superpower", "Nothing — small states are free riders by default"],
+    correct: 1,
+    explain: "In asymmetric alliances, the weaker party typically trades autonomy for security. They defer to the major power on key foreign policy decisions in exchange for protection — a classic patron-client dynamic."
+  },
+  {
+    q: "A country with strong cultural ties to its allies suddenly shifts to a leader with nationalist, go-it-alone foreign policy. What does research predict?",
+    ctx: "Leadership change and domestic politics can rapidly alter alliance commitment signals.",
+    options: ["Alliance immediately dissolves", "Alliance weakens but cultural ties buffer the damage", "No effect — alliances are purely institutional", "Allies increase their own defense spending"],
+    correct: 1,
+    explain: "Cultural affinity acts as a buffer. Even with hostile leadership signals, underlying cultural bonds maintain some cohesion and reduce the speed of deterioration. But sustained nationalist policies do erode alliances over time."
+  }
+];
+
+let current = 0, score = 0;
+const titles = [
+  [0, 2, "Freshman Scholar", "Keep reading! Alliance politics is a deep field — you're just getting started."],
+  [3, 4, "Aspiring IR Analyst", "Solid foundation! You understand the basics of alliance theory."],
+  [5, 6, "Advanced Strategist", "Impressive! You have a sophisticated grasp of international security dynamics."],
+  [7, 8, "Alliance Expert", "Outstanding! You might belong in one of Saera's seminars as a guest lecturer."]
+];
+
+function startGame() {
+  current = 0; score = 0;
+  document.getElementById('gameResult').classList.remove('visible');
+  document.getElementById('gameBoard').style.display = 'block';
+  document.getElementById('scoreNum').textContent = 0;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('gamePhase').textContent = `Question ${current + 1} of ${questions.length}`;
+  document.getElementById('gameQuestion').textContent = q.q;
+  document.getElementById('gameContext').textContent = q.ctx;
+  document.getElementById('gameFeedback').classList.remove('visible');
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('qNum').textContent = current + 1;
+  document.getElementById('progressFill').style.width = `${(current / questions.length) * 100}%`;
+
+  const opts = document.getElementById('gameOptions');
+  opts.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'game-option';
+    btn.textContent = opt;
+    btn.onclick = () => selectAnswer(i);
+    opts.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  const q = questions[current];
+  const btns = document.querySelectorAll('.game-option');
+  btns.forEach(b => b.disabled = true);
+  btns[q.correct].classList.add('correct');
+  if (idx !== q.correct) btns[idx].classList.add('wrong');
+  else score++;
+
+  document.getElementById('scoreNum').textContent = score;
+  const fb = document.getElementById('gameFeedback');
+  fb.textContent = (idx === q.correct ? '✓ Correct! ' : '✗ Not quite. ') + q.explain;
+  fb.classList.add('visible');
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) showResult();
+  else renderQuestion();
+}
+
+function showResult() {
+  document.getElementById('gameBoard').style.display = 'none';
+  const res = document.getElementById('gameResult');
+  res.classList.add('visible');
+  document.getElementById('resultScore').textContent = `${score}/8`;
+  document.getElementById('progressFill').style.width = '100%';
+
+  let [, , title, msg] = titles.find(([lo, hi]) => score >= lo && score <= hi);
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+}
+
+function restartGame() { startGame(); }
+
+function handleContact() {
+  alert('Thank you for your message! (This is a demo — add your email backend to activate.)');
+}
+
+// Init
+startGame();
+</script>
+</body>
+</html>
