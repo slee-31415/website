@@ -852,12 +852,8 @@
       </div>
     </div>
   </div>
-  <div class="home-photo">
-    <div class="photo-frame">
-      <div class="photo-placeholder">
-        <div class="photo-icon"></div>
-<img src="6L9A7852.jpg" alt="Saera Lee" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
-      </div>
+<div class="photo-frame">
+  <img src="6L9A7852.jpg" alt="Saera Lee" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
     </div>
     <div class="photo-caption"></div>
   </div>
@@ -918,14 +914,14 @@
     <div class="cv-group fade-in">
       <div class="cv-group-title">Fields of Interest</div>
       <div class="cv-item">
-        <div class="cv-year">Primary</div>
+        <div class="cv-year"></div>
         <div class="cv-content">
           <strong>International Relations</strong>
           <span>International cooperation, conflict, military alliances</span>
         </div>
       </div>
       <div class="cv-item">
-        <div class="cv-year">Secondary</div>
+        <div class="cv-year"></div>
         <div class="cv-content">
           <strong>Political Methodology</strong>
           <span>Quantitative methods, duration analysis, causal inference</span>
@@ -1150,7 +1146,10 @@ function showSection(id) {
 }
 
 document.querySelectorAll('.nav-links a').forEach(a => {
-  a.addEventListener('click', e => e.preventDefault());
+  a.addEventListener('click', e => {
+    if (a.getAttribute('href') !== '#') return;
+    e.preventDefault();
+  });
 });
 
 // Fade-in observer
